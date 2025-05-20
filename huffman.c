@@ -101,6 +101,7 @@ void insert_node(HuffmanNode *node){
     sift_up(node_count);//поднимаем узел на нужную позицию
     node_count++;//увеличиваем счетчик узлов
 }
+//LOX
 
 //ФУНКЦИЯ ДЛЯ ИЗВЛЕЧЕНИЯ УЗОА С МИНИМАЛЬНОЙ ЧАСТОТОЙ
 HuffmanNode* remove_min(){
