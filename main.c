@@ -59,23 +59,29 @@ int main(int argc, char *argv[]){
         compress_to_huffman(text, output_file);
         //свобода для памяти
         free(text);
+        printf("Сжатие завершено. Результат сохранён в %s\n", output_file);
+        return 0;
     } else if (strcmp(mode, "--decompress") == 0){
         //то у нас режим распаковки 
         char *decompressed = decompress_from_huffman(input_file);
         if (!decompressed){
             return 1; 
         }
-        //сохраняем распакованный теккст в выходной файл
+        //сохраняем распакованный текст в выходной файл
         FILE *f = fopen(output_file, "w");
         if (!f){
             printf("Ошибка -> не удалось открыть файл %s для записи\n", output_file);
             free(decompressed);
-        } else {
-            //неизвестный режим
-            printf("Неизвестный режим: %s\n", mode);
-            print_usage(argv[0]);
             return 1;
         }
+        fprintf(f, "%s", decompressed);
+        fclose(f);
+        free(decompressed);
+        printf("Распаковка завершена. Результат сохранён в %s\n", output_file);
         return 0;
     }
+    //неизвестный режим
+    printf("Неизвестный режим: %s\n", mode);
+    print_usage(argv[0]);
+    return 1;
 }

@@ -7,7 +7,7 @@
 
 //максимальное количество узлов в дереве Хаффмана
 //для 256 символов (1 байт) нужно 2*256 - 1 узлов
-#define MAX_TREE_NODES 
+#define MAX_TREE_NODES 511  // 2*256 - 1 для 256 символов
 
 //глобальная переменные для работы с очередью узлов 
 int node_count = 0; //текущее кол-во узлов в очереди 
@@ -126,10 +126,10 @@ void build_codes(HuffmanNode *node, HuffmanCode table[256], unsigned int code, i
     }
     //рекурсивно строим коды для левого (0) и правого (1) поддеревьев
     if (node->left){
-        build_codes(node->left, table, (code << 1), length + 1);//добавляем 0 к коду
+        build_codes(node->left, table, (code << 1), length + 1); // добавляем 0
     } 
     if (node->right){
-        build_codes(node->right, table, (code << 1) | 1, length + 1); //добавляем 1 к колу
+        build_codes(node->right, table, (code << 1) | 1, length + 1); // добавляем 1
     }
 }
 
@@ -223,16 +223,12 @@ void compress_to_huffman(const char *text, const char *output_file){
 
         //чтобы было интереснее найдем самый частый и самый редкий символ в нашем тексте
         //но в консоли он не будет выводиться.......
-        int max_freq = 0, min_freq = INT_MAX;
-        unsigned char max_char = 0, min_char = 0;
+        int max_freq = 0;
+        unsigned char max_char = 0;
         for (int i = 0; i < count; i++){
             if (freqs[i].frequency > max_freq){
                 max_freq = freqs[i].frequency;
                 max_char = freqs[i].symbol;
-            }
-            if (freqs[i].frequency < min_freq){
-                min_freq = freqs[i].frequency;
-                min_freq = freqs[i].symbol;
             }
         }
         //теперь выводим информацию
